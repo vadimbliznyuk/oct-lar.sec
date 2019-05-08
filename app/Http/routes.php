@@ -33,6 +33,19 @@ Route::post('/tasks', function (Request $request) {
 });
 
 Route::delete('/tasks/{task}', function (Task $task){
+    
     $task->delete();
     return redirect('/');
+});
+
+Route::get('/tasks/{task}', function (Task $task) {
+    
+//    var_dump('sdf');
+//    die();
+    
+    return view('tasks.edit', [
+//	'tasks' => $tasks,
+    ]); // уроки это вид tasks
+    
+    
 });

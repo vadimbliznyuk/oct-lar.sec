@@ -57,13 +57,18 @@
 		    <td class="table-text">
 			<div>{{ $task->name }}</div>
 		    </td>
-
 		    <td>
 			<form action="{{url('tasks/'.$task->id)}}" method="POST">
 			    {{csrf_field()}}
 			    {{method_field('delete')}}
 			 
 			    <button type="submit" class="btn btn default bg-danger"><i class="fa fa-trash"></i></button>
+			</form>
+		    </td>
+		    <td>
+			<form action="{{url('tasks/'.$task->id)}}" method="GET">
+			    {{csrf_field()}}
+			    <button type="submit" class="btn btn default bg-danger"><i class="fa fa-trash">edit</i></button>
 			</form>
 		    </td>
 		</tr>
