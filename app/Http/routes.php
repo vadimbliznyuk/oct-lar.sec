@@ -4,7 +4,14 @@ use Illuminate\Http\Request;
 use App\Task;
 
 Route::get('/', function () {
-    return view('tasks.index'); // уроки это вид tasks
+    $tasks = Task::all();
+
+//    var_dump($tasks);
+//    exit();
+
+    return view('tasks.index', [
+	'tasks' => $tasks,
+    ]); // уроки это вид tasks
 });
 
 Route::post('/tasks', function (Request $request) {
@@ -18,9 +25,14 @@ Route::post('/tasks', function (Request $request) {
 			->withInput()
 			->withErrors($validator);
     }
-    
+
     $task = new Task();
     $task->name = $request->name;
     $task->save();
+    return redirect('/');
+});
+
+Route::delete('/tasks/{task}', function (Task $task){
+    $task->delete();
     return redirect('/');
 });
