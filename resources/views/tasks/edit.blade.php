@@ -16,7 +16,7 @@
 	    <label for="task" class="col-sm-3 control-label">Задача</label>
 
 	    <div class="col-sm-6">
-                <input type="text" name="name" id="task-name" class="form-control" value="<?=$task->name?>">
+                <input type="text" name="name" id="task-name" class="form-control" value="{{$task->name}}">
 	    </div>
 	</div>
 
@@ -30,3 +30,4 @@
 	</div>
     </form>
 </div>
+@endsection
