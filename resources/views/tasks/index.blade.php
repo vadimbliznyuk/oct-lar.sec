@@ -8,7 +8,7 @@
     @include('common.errors')
 
     <!-- Форма новой задачи -->
-    <form action="{{ url('tasks') }}" method="POST" class="form-horizontal">
+    <form action="{{ route('tasks_store') }}" method="POST" class="form-horizontal">
         {{ csrf_field() }}
 
         <!-- Имя задачи -->
@@ -58,13 +58,13 @@
                         <div>{{ $task->name }}</div>
                     </td>
                     <td>
-                        <form action="{{url('tasks/'.$task->id.'/edit')}}" method="GET">
+                        <form action="{{route('tasks_edit', $task->id)}}" method="GET">
                             <!--{{csrf_field()}}--> 
                             <button type="submit" class="btn btn-primary"><i class="fas fa-edit"></i></button>
                         </form>
                     </td>
                     <td>
-                        <form action="{{url('tasks/'.$task->id)}}" method="POST">
+                        <form action="{{route('tasks_destroy', $task->id)}}" method="POST">
                             {{csrf_field()}}
                             {{method_field('delete')}}
 

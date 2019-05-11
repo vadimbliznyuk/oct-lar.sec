@@ -9,7 +9,8 @@ Route::get('/', function () {
     return view('tasks.index', [
         'tasks' => $tasks,
     ]); 
-});
+    
+})->name('tasks_index');
 
 Route::post('/tasks', function (Request $request) {
 
@@ -18,7 +19,7 @@ Route::post('/tasks', function (Request $request) {
     ]);
 
     if ($validator->fails()) {
-        return redirect('/')
+        return redirect(route('tasks_index'))
                         ->withInput()
                         ->withErrors($validator);
     }
@@ -27,20 +28,24 @@ Route::post('/tasks', function (Request $request) {
     $task->name = $request->name;
 
     $task->save();
-    return redirect('/');
-});
+    return redirect(route('tasks_index'));
+    
+})->name('tasks_store');
 
 Route::delete('/tasks/{task}', function (Task $task) {
+    
     $task->delete();
-    return redirect('/');
-});
+    return redirect(route('tasks_index'));
+    
+})->name('tasks_destroy');
 
 Route::get('/tasks/{task}/edit', function (Task $task) {
-
+    
     return view('tasks.edit', [
         'task' => $task,
     ]); 
-});
+    
+})->name('tasks_edit');
 
 Route::patch('/tasks/{task}', function (Request $request, Task $task ) {
 
@@ -49,12 +54,13 @@ Route::patch('/tasks/{task}', function (Request $request, Task $task ) {
     ]);
 
     if ($validator->fails()) {
-        return redirect('/tasks/'.$task->id.'/edit')
+        return redirect(route('tasks_edit', $task->id))
                 ->withInput()
                 ->withErrors($validator);
     }
 
     $task->name = $request->name;
     $task->save();
-    return redirect('/');
-});
+    return redirect(route('tasks_index'));
+    
+})->name('tasks_update');

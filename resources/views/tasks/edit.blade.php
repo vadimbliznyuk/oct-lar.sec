@@ -7,7 +7,7 @@
     @include('common.errors')
 
     <!-- Форма новой задачи -->
-    <form action="{{url('tasks/'.$task->id)}}" method="POST" class="form-horizontal">
+    <form action="{{route('tasks_update',$task->id)}}" method="POST" class="form-horizontal">
 	{{ csrf_field() }}
         {{method_field('PATCH')}}
         
