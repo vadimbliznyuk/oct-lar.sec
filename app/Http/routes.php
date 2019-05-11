@@ -2,65 +2,86 @@
 
 use Illuminate\Http\Request;
 use App\Task;
+use App\News;
 
-Route::get('/', function () {
-    $tasks = Task::all();
+Route::get('/', function (){
+    return view('index');
+})->name('home');
 
-    return view('tasks.index', [
-        'tasks' => $tasks,
-    ]); 
-    
-})->name('tasks_index');
+Route::group(['prefix' => 'news'], function () {
+   Route::get('/', function () {
+       
+//       var_dump('sdafsd');
+//       die();
+       
+	$news = News::all();
+//	var_dump($news);
+//	die();
+	return view('news.index', [
+	    'news' => $news,
+	]);
+    })->name('news_index');
+});
 
-Route::post('/tasks', function (Request $request) {
 
-    $validator = Validator::make($request->all(), [
-                'name' => 'required|max:255',
-    ]);
+Route::group(['prefix' => 'tasks'], function () {
+    Route::get('/', function () {
+	$tasks = Task::all();
 
-    if ($validator->fails()) {
-        return redirect(route('tasks_index'))
-                        ->withInput()
-                        ->withErrors($validator);
-    }
+	return view('tasks.index', [
+	    'tasks' => $tasks,
+	]);
+    })->name('tasks_index');
 
-    $task = new Task();
-    $task->name = $request->name;
+    Route::post('/', function (Request $request) {
 
-    $task->save();
-    return redirect(route('tasks_index'));
-    
-})->name('tasks_store');
+	$validator = Validator::make($request->all(), [
+		    'name' => 'required|max:255',
+	]);
 
-Route::delete('/tasks/{task}', function (Task $task) {
-    
-    $task->delete();
-    return redirect(route('tasks_index'));
-    
-})->name('tasks_destroy');
+	if ($validator->fails()) {
+	    return redirect(route('tasks_index'))
+			    ->withInput()
+			    ->withErrors($validator);
+	}
 
-Route::get('/tasks/{task}/edit', function (Task $task) {
-    
-    return view('tasks.edit', [
-        'task' => $task,
-    ]); 
-    
-})->name('tasks_edit');
+	$task = new Task();
+	$task->name = $request->name;
 
-Route::patch('/tasks/{task}', function (Request $request, Task $task ) {
+	$task->save();
+	return redirect(route('tasks_index'));
+    })->name('tasks_store');
 
-    $validator = Validator::make($request->all(), [
-                'name' => 'required|max:255',
-    ]);
+    Route::delete('/{task}', function (Task $task) {
 
-    if ($validator->fails()) {
-        return redirect(route('tasks_edit', $task->id))
-                ->withInput()
-                ->withErrors($validator);
-    }
+	$task->delete();
+	return redirect(route('tasks_index'));
+    })->name('tasks_destroy');
 
-    $task->name = $request->name;
-    $task->save();
-    return redirect(route('tasks_index'));
-    
-})->name('tasks_update');
+    Route::get('/{task}/edit', function (Task $task) {
+
+	return view('tasks.edit', [
+	    'task' => $task,
+	]);
+    })->name('tasks_edit');
+
+    Route::patch('/{task}', function (Request $request, Task $task ) {
+
+	$validator = Validator::make($request->all(), [
+		    'name' => 'required|max:255',
+	]);
+
+	if ($validator->fails()) {
+	    return redirect(route('tasks_edit', $task->id))
+			    ->withInput()
+			    ->withErrors($validator);
+	}
+
+	$task->name = $request->name;
+	$task->save();
+	return redirect(route('tasks_index'));
+    })->name('tasks_update');
+});
+
+
+
