@@ -49,7 +49,7 @@ Route::patch('/tasks/{task}', function (Request $request, Task $task ) {
     ]);
 
     if ($validator->fails()) {
-        return back()
+        return redirect('/tasks/'.$task->id.'/edit')
                 ->withInput()
                 ->withErrors($validator);
     }
