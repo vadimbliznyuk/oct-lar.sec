@@ -21,6 +21,17 @@ Route::group(['prefix' => 'news'], function () {
 	    'news' => $news,
 	]);
     })->name('news_index');
+    
+    Route::get('/{news}', function (News $news) {
+
+//	var_dump($news);
+//	die();
+        
+	return view('news.show', [
+	    'news' => $news,
+	]);
+    })->name('news_show');
+    
 });
 
 
